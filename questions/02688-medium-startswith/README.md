@@ -12,3 +12,21 @@ type c = StartsWith<'abc', 'abcd'> // expected to be false
 
 
 <!--info-footer-start--><br><a href="../../README.md" target="_blank"><img src="https://img.shields.io/badge/-Back-grey" alt="Back"/></a> <a href="https://tsch.js.org/2688/answer" target="_blank"><img src="https://img.shields.io/badge/-Share%20your%20Solutions-teal" alt="Share your Solutions"/></a> <a href="https://tsch.js.org/2688/solutions" target="_blank"><img src="https://img.shields.io/badge/-Check%20out%20Solutions-de5a77?logo=awesome-lists&logoColor=white" alt="Check out Solutions"/></a> <hr><h3>Related Challenges</h3><a href="https://github.com/type-challenges/type-challenges/blob/main/questions/02693-medium-endswith/README.md" target="_blank"><img src="https://img.shields.io/badge/-2693%E3%83%BBEndsWith-d9901a" alt="2693・EndsWith"/></a> <!--info-footer-end-->
+
+
+---------
+
+Solution
+
+```typescript
+
+type HeadTail<Type> = Type extends `${infer First}${infer Rest}` ? [First,Rest] : ['',Type];
+
+type StartsWith<T extends string, U extends string> =
+  HeadTail<U> extends ['', ...any] ? true : 
+  HeadTail<T> extends ['', ...any] ? false : 
+  HeadTail<T>[0] extends HeadTail<U>[0] ? 
+    StartsWith<HeadTail<T>[1], HeadTail<U>[1]>
+  : false
+
+```
